@@ -1,4 +1,5 @@
 import serial
+import time
 
 
 
@@ -13,13 +14,16 @@ class UsbSerial:
     def clear(self, pin):
         self.ser.write("gpio clear " + ("000" + str(pin))[-3:] + "r")
 
-    def read(self, pin):
+    def readGPIO(self, pin):
         self.ser.write("gpio read " + ("000" + str(pin))[-3:] + "r")
+        time.sleep(.1)
+        return self.ser.read(1)
 
     def clear_all(self): 
-        #self.ser.write("gpio readall 00000000000000000000000011111111r")
-	#self.ser.write("gpio readall 11111111111111111111111111111111r")
-	self.ser.write("gpio setall r")
+        for i in range (0,128):
+            self.ser.write("gpio set "   + ("000" + str(i))[-3:] + "r")
+            print(i)
+            
     def close(self):
         self.ser.close()
 
