@@ -1,9 +1,6 @@
 import time
 import paho.mqtt.publish as publish
 import random
-import threading
-from countdown_timer import CountdownTimer
-from segment_driver import SegmentDriver
 from usb_serial import UsbSerial
 
 global last_state

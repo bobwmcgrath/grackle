@@ -7,39 +7,36 @@ import paho.mqtt.publish as publish
 from usb_serial import UsbSerial
 from game import Game
 import serial
-from usb_serial import UsbSerial
-
-ser = serial.Serial('/dev/ttyACM0')  # open serial port
-time.sleep(2)
-
 
 
 class Grackle:
 
     @classmethod
     def run(cls):
+
+        
+
         is_running = True
 
         run_time = 60
         max_pin = 50
         ada_pins = 25
+        start = 5
+        ada_start = 20
 
-        ser_conf = {"port": "/dev/ttyACM0", "baud": 19200}
+        ser_conf = {"port": "/dev/serial/by-id/usb-Numato_Systems_PVT_LTD_Numato_Lab_128_Channel_USB_GPIO_Module_NL12800000A19004-if00", "baud": 9600}
+        NUMATO=UsbSerial(ser_conf)
         gameDict = {'serial': ser_conf, 'game_time': run_time}
 
-        time.sleep(1)
 
         while is_running:
-                print(UsbSerial.readGPIO(4))
-                time.sleep(1)
-                if UsbSerial.readGPIO(4)==1:
+                if NUMATO.readGPIO(start)=="1":
                         print("go")
                         gameDict['last_pin'] = max_pin
                         publish.single("start")
                         Game.start(gameDict)
 
-                time.sleep(1)
-                if UsbSerial.readGPIO(20)==1:
+                if NUMATO.readGPIO(ada_start)=="1":
                         print("ada button input activated")
                         gameDict['last_pin'] = ada_pins
                         publish.single("start")
