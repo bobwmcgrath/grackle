@@ -26,10 +26,10 @@ class UsbSerial:
         self.ser.flush()
         return x
 
-    def clear_all(self): 
+    def reset(self): 
         for i in range (0,128):
             self.ser.write("gpio set " + ("000" + str(i))[-3:] + "r")
-            print(i)
+            #print(i)
 
     def close(self):
         self.ser.close()
