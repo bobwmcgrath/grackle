@@ -27,11 +27,26 @@ class UsbSerial:
         return x
 
     def reset(self): 
-        for i in range (0,128):
+        inputs = range(16,32)+range(48,64)+range(64,80)+range(96,112)
+        outputs = range(0,16)+range(32,48)+range(80,96)+range(112,128)
+        pins = len(outputs)
+        for i in outputs:
             self.ser.write("gpio set " + ("000" + str(i))[-3:] + "r")
             #print(i)
+        for i in inputs:
+            self.ser.flush()
+            self.ser.write("gpio read " + ("000" + str(i))[-3:] + "r")
+            time.sleep(.1)
+            x=self.ser.readline()
+            x=self.ser.read(1)
+            x=self.ser.read(1)
+            y=self.ser.read(1)
+            #time.sleep(.1)
+            self.ser.flush()
 
     def close(self):
         self.ser.close()
+
+
 
 

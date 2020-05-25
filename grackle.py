@@ -21,16 +21,16 @@ class Grackle:
         run_time = 60
         max_pin = 50
         ada_pins = 25
-        start = 4
-        ada_start = 20
+        start = 17
+        ada_start = 19
 
         ser_conf = {"port": "/dev/serial/by-id/usb-Numato_Systems_PVT_LTD_Numato_Lab_128_Channel_USB_GPIO_Module_NL12800000A19004-if00", "baud": 9600}
         NUMATO=UsbSerial(ser_conf)
         gameDict = {'serial': ser_conf, 'game_time': run_time}
+        NUMATO.reset()
 
 
         while is_running:
-                print("poop")
                 print NUMATO.readGPIO(start)
                 if NUMATO.readGPIO(start)=="1":
                         print("go")
