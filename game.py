@@ -48,7 +48,7 @@ class Game:
                 #rnd=2
                 rnd=random.randint(0,10000)
                 if rnd==1:
-                        NUMATO.setoutputs[active_pin])
+                        NUMATO.setoutputs([active_pin])
                         active_pin = random.choice(pins)
                         NUMATO.clear(outputs[active_pin])
                         print("random")
