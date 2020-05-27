@@ -52,13 +52,29 @@ class UsbSerial:
             #time.sleep(.1)
             self.ser.flush()
             time.sleep(.01)
+    def test(self):
+        inputs = []+range(16,32)+range(48,64)+range(64,80)+range(96,112)
+        outputs = []+range(0,16)+range(32,48)+range(80,96)+range(112,128)
+        pins = range(0,len(outputs))
+
+        for i in pins:
+            self.clear(outputs[i])
+            print(outputs[i])
+            while self.readGPIO(inputs[i]) is not "1":
+                #print self.readGPIO(inputs[i])
+                time.sleep(.1)
+
+
+
+
 
     def close(self):
         self.ser.close()
 
-#ser_conf = {"port": "/dev/ttyACM0", "baud": 115200}
-#NUMATO=UsbSerial(ser_conf)
-#NUMATO.reset()
+ser_conf = {"port": "/dev/ttyACM0", "baud": 115200}
+NUMATO=UsbSerial(ser_conf)
+NUMATO.reset()
+NUMATO.test()
 #print NUMATO.readGPIO(17)
 #
 #
