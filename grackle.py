@@ -14,36 +14,40 @@ class Grackle:
     @classmethod
     def run(cls):
 
-        
-
         is_running = True
 
-        run_time = 60
+        run_time = 31
         max_pin = 50
         ada_pins = 25
-        start = 17
-        ada_start = 17
+        start = 21
+        ada_start = 20
 
         ser_conf = {"port": "/dev/ttyACM0", "baud": 115200}
         NUMATO=UsbSerial(ser_conf)
         gameDict = {'serial': ser_conf, 'game_time': run_time}
         NUMATO.reset()
-
+        NUMATO.clear(4)
+        NUMATO.clear(5)
 
         while is_running:
-                print NUMATO.readGPIO(start)
-                if NUMATO.readGPIO(start)=="1":
+                #print NUMATO.readGPIO(start)
+                if 1==1:#NUMATO.readGPIO(start)=="1":
+                        NUMATO.set(4)
+                        NUMATO.set(5)
                         print("go")
                         gameDict['last_pin'] = max_pin
                         publish.single("start")
                         Game.start(gameDict)
+                        NUMATO.clear(4)
+                        NUMATO.clear(5) 
 
                 if NUMATO.readGPIO(ada_start)=="1":
+                        NUMATO.set(4)
+                        NUMATO.set(5)
                         print("ada button input activated")
                         gameDict['last_pin'] = ada_pins
                         publish.single("start")
                         Game.start(gameDict)
-
-
-
+                        NUMATO.clear(4)
+                        NUMATO.clear(5) 
 Grackle.run()
