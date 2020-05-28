@@ -16,7 +16,7 @@ class Grackle:
 
         is_running = True
 
-        run_time = 31
+        run_time = 30
         max_pin = 50
         ada_pins = 25
         start = 21
