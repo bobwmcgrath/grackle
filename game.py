@@ -12,8 +12,8 @@ class Game:
     @classmethod
     def start(cls, conf):
         score = 0
-        inputs = []+range(16,32)+range(48,64)+range(64,80)+range(96,112)
-        outputs = []+range(0,16)+range(32,48)+range(80,96)+range(112,128)
+        inputs = [22,23,24,25,26,27,28,29,30,31,48,49,50,51,52,53,54,55,56,57,58,59,60,61,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,104,106,107,100,101,102,103,108,109,110,111]
+        outputs =[6 ,7 ,8 ,9 ,10,11,14,13,12,15,32,33,34,35,36,37,38,39,40,41,42,43,44,45,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,116,118,119,120,121,122,123,124,125,126,127]
         pins = range(0,len(outputs))
         NUMATO = UsbSerial(conf['serial'])
         active_pin = random.choice(pins)  
@@ -37,7 +37,7 @@ class Game:
                         active_pin = random.choice(pins)
                         NUMATO.clear(outputs[active_pin])
                         #last_state=1
-                        print('pin active at: '+str(active_pin) )
+                        #print('pin active at: '+str(active_pin) )
                         while NUMATO.readGPIO(inputs[active_pin])=="1" and end_time > time.time():
                                 time.sleep(0.1)
 
