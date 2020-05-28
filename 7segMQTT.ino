@@ -1,11 +1,10 @@
 /*
  Based on "Basic MQTT example" 
 */
-
-
+//#include <avr/wdt.h> //watch do timer
 #include <SPI.h>
 #include <Ethernet.h>
-#include <PubSubClient.h>
+#include <PubSubClient.h> //MQTT
 
 
 const bool countdown=0;
@@ -25,12 +24,12 @@ int number = 0;
 //if (countdown==1) 
 //byte mac[]   = {  0xDE, 0xED, 0xBA, 0xFE, 0xFE, 0x01 };
 //if (score==1) 
-//byte mac[]   = {  0xDE, 0xED, 0xBA, 0xFE, 0xFE, 0x02 };
+byte mac[]   = {  0xDE, 0xED, 0xBA, 0xFE, 0xFE, 0x02 };
 //if (high_score==1) 
-byte mac[]   = {  0xDE, 0xED, 0xBA, 0xFE, 0xFE, 0x03 };
+//byte mac[]   = {  0xDE, 0xED, 0xBA, 0xFE, 0xFE, 0x03 };
 
 //if (countdown==1) 
-IPAddress ip(192, 168, 1, 80);
+IPAddress ip(192, 168, 1, 82);
 //if (score==1) IPAddress ip(192, 168, 1, 80);
 //if (high_score==1) IPAddress ip(192, 168, 1, 80);
 
@@ -47,7 +46,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
   if ((String)topic == "stop" && high_score==1){
     if (number>top_score)top_score=number;
     number=0;
-    showNumber(top_score);
+    showNumber(swap(top_score));
   }
   Serial.print("Message arrived [");
   Serial.print(topic);
@@ -88,7 +87,8 @@ void reconnect() {
 
 void setup()
 {
-  Serial.begin(115200);
+  //wdt_enable(WDTO_8S);
+  Serial.begin(9600);
 
   client.setServer(server, 1883);
   client.setCallback(callback);
@@ -105,7 +105,20 @@ void setup()
   digitalWrite(segmentData, LOW);
   digitalWrite(segmentLatch, LOW);
 
-  showNumber(number);
+  showNumber(swap(number));
+
+
+}
+
+int swap(int digit)
+{
+  
+  int first_digit = digit/10;
+  first_digit = floor(first_digit);
+  int second_digit = digit%10;
+  int swapped_number = (second_digit*10)+first_digit;
+
+  return swapped_number;
 
 }
 
@@ -117,7 +130,7 @@ void count_down()
   while (number!=0)
   {
     delay(1000);
-    showNumber(number-1);
+    showNumber(swap(number-1));
     number--;
     
   Serial.println(number); //For debugging
@@ -128,7 +141,9 @@ void count_down()
 void score_point()
 {
   number++;
-  showNumber(number);
+  int x=swap(number);
+    Serial.println(x);
+  showNumber(x);
   delay(150);
 }
 
@@ -138,8 +153,7 @@ void loop()
     reconnect();
   }
   client.loop();
-
-
+  //wdt_reset();
 
 }
 

@@ -30,8 +30,7 @@ class Grackle:
         NUMATO.clear(5)
 
         while is_running:
-                #print NUMATO.readGPIO(start)
-                if 1==1:#NUMATO.readGPIO(start)=="1":
+                if NUMATO.readGPIO(start)=="1":
                         NUMATO.set(4)
                         NUMATO.set(5)
                         print("go")

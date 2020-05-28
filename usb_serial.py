@@ -70,16 +70,4 @@ class UsbSerial:
     def close(self):
         self.ser.close()
 
-#ser_conf = {"port": "/dev/ttyACM0", "baud": 115200}
-#NUMATO=UsbSerial(ser_conf)
-#NUMATO.reset()
-#time.sleep(1)
-#NUMATO.reset()
-#NUMATO.test()
-#print NUMATO.readGPIO(17)
-#
-#
-#inputs = []+range(16,32)+range(48,64)+range(64,80)+range(96,112)
-#len = len(inputs)
 
-#print (inputs)
