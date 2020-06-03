@@ -6,10 +6,9 @@
 #include <Ethernet.h>
 #include <PubSubClient.h> //MQTT
 
-
-const bool countdown=0;
-const bool score=0;
-const bool high_score=1;
+#define countdown 1
+#define score 0
+#define high_score 0
 int top_score=0;
 
 //GPIO declarations
@@ -21,18 +20,21 @@ int number = 0;
 //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
 // Update these with values suitable for your network.
-//if (countdown==1) 
-//byte mac[]   = {  0xDE, 0xED, 0xBA, 0xFE, 0xFE, 0x01 };
-//if (score==1) 
-byte mac[]   = {  0xDE, 0xED, 0xBA, 0xFE, 0xFE, 0x02 };
-//if (high_score==1) 
-//byte mac[]   = {  0xDE, 0xED, 0xBA, 0xFE, 0xFE, 0x03 };
-
-//if (countdown==1) 
-IPAddress ip(192, 168, 1, 82);
-//if (score==1) IPAddress ip(192, 168, 1, 80);
-//if (high_score==1) IPAddress ip(192, 168, 1, 80);
-
+#ifdef countdown
+  #define MAC_ADDRESS 0xDE, 0xED, 0xBA, 0xFE, 0xFE, 0x01
+  #define IPADDRESS 192, 168, 1, 80
+  #endif
+#ifdef score
+  #define MAC_ADDRESS 0xDE, 0xED, 0xBA, 0xFE, 0xFE, 0x02
+  #define IPADDRESS 192, 168, 1, 81
+  #endif
+#ifdef high_score
+  #define MAC_ADDRESS 0xDE, 0xED, 0xBA, 0xFE, 0xFE, 0x03
+  #define IPADDRESS 192, 168, 1, 82
+  #endif
+  
+byte mac[]   = {MAC_ADDRESS};
+IPAddress ip(IPADDRESS);
 IPAddress server(192, 168, 1, 239);
 
 void callback(char* topic, byte* payload, unsigned int length) {
@@ -46,7 +48,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
   if ((String)topic == "stop" && high_score==1){
     if (number>top_score)top_score=number;
     number=0;
-    showNumber(swap(top_score));
+    showNumber(top_score);
   }
   Serial.print("Message arrived [");
   Serial.print(topic);
@@ -105,7 +107,7 @@ void setup()
   digitalWrite(segmentData, LOW);
   digitalWrite(segmentLatch, LOW);
 
-  showNumber(swap(number));
+  showNumber(number);
 
 
 }
@@ -130,7 +132,7 @@ void count_down()
   while (number!=0)
   {
     delay(1000);
-    showNumber(swap(number-1));
+    showNumber(number-1);
     number--;
     
   Serial.println(number); //For debugging
@@ -162,7 +164,7 @@ void loop()
 void showNumber(float value)
 {
   int number = abs(value); //Remove negative signs and any decimals
-
+  number = swap(number);
   //Serial.print("number: ");
   //Serial.println(number);
 

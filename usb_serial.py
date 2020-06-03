@@ -62,11 +62,6 @@ class UsbSerial:
             while self.readGPIO(inputs[i]) is "1":
                 time.sleep(.1)
             
-
-
-
-
-
     def close(self):
         self.ser.close()
 

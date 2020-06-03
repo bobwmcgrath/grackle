@@ -17,11 +17,10 @@ class Grackle:
         is_running = True
 
         run_time = 30
-        max_pin = 50
+        max_pin = 51
         ada_pins = 25
         start = 21
         ada_start = 20
-
         ser_conf = {"port": "/dev/ttyACM0", "baud": 115200}
         NUMATO=UsbSerial(ser_conf)
         gameDict = {'serial': ser_conf, 'game_time': run_time}
