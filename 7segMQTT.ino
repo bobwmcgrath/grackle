@@ -20,15 +20,15 @@ int number = 0;
 //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
 // Update these with values suitable for your network.
-#ifdef countdown
+#if (countdown==1)
   #define MAC_ADDRESS 0xDE, 0xED, 0xBA, 0xFE, 0xFE, 0x01
   #define IPADDRESS 192, 168, 1, 80
   #endif
-#ifdef score
+#if (score==1)
   #define MAC_ADDRESS 0xDE, 0xED, 0xBA, 0xFE, 0xFE, 0x02
   #define IPADDRESS 192, 168, 1, 81
   #endif
-#ifdef high_score
+#if (high_score==1)
   #define MAC_ADDRESS 0xDE, 0xED, 0xBA, 0xFE, 0xFE, 0x03
   #define IPADDRESS 192, 168, 1, 82
   #endif

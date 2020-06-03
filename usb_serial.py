@@ -42,6 +42,18 @@ class UsbSerial:
             time.sleep(.01)
             #print(i)
             time.sleep(.01)
+
+    def resetSLOW(self): 
+        inputs = []+range(16,32)+range(48,64)+range(64,80)+range(96,112)
+        outputs = []+range(0,16)+range(32,48)+range(80,96)+range(112,128)
+        pins = range(0,len(outputs))
+        for i in outputs:
+            self.clear(i)
+            time.sleep(.5)
+            self.set(i)
+            time.sleep(.01)
+            #print(i)
+            time.sleep(.01)
             
         for i in inputs:
             self.readGPIO(i)
