@@ -6,9 +6,9 @@
 #include <Ethernet.h>
 #include <PubSubClient.h> //MQTT
 
-#define countdown 1
+#define countdown 0
 #define score 0
-#define high_score 0
+#define high_score 1
 int top_score=0;
 
 //GPIO declarations
@@ -23,14 +23,17 @@ int number = 0;
 #if (countdown==1)
   #define MAC_ADDRESS 0xDE, 0xED, 0xBA, 0xFE, 0xFE, 0x01
   #define IPADDRESS 192, 168, 1, 80
+  #define CLIENT "countdown"
   #endif
 #if (score==1)
   #define MAC_ADDRESS 0xDE, 0xED, 0xBA, 0xFE, 0xFE, 0x02
   #define IPADDRESS 192, 168, 1, 81
+  #define CLIENT "score"
   #endif
 #if (high_score==1)
   #define MAC_ADDRESS 0xDE, 0xED, 0xBA, 0xFE, 0xFE, 0x03
   #define IPADDRESS 192, 168, 1, 82
+  #define CLIENT "high_score"
   #endif
   
 byte mac[]   = {MAC_ADDRESS};
@@ -68,7 +71,7 @@ void reconnect() {
   while (!client.connected()) {
     Serial.print("Attempting MQTT connection...");
     // Attempt to connect
-    if (client.connect("arduinoClient")) {
+    if (client.connect(CLIENT)) {
       Serial.println("connected");
       // Once connected, publish an announcement...
       client.publish("outTopic","hello world");
@@ -131,8 +134,9 @@ void count_down()
 
   while (number!=0)
   {
-    delay(1000);
+    delay(980);//1 second - processing
     showNumber(number-1);
+    if (number==18)showNumber(number-1);//to fix bizzar glich in displaying the number 17 as 87
     number--;
     
   Serial.println(number); //For debugging
@@ -143,9 +147,7 @@ void count_down()
 void score_point()
 {
   number++;
-  int x=swap(number);
-    Serial.println(x);
-  showNumber(x);
+  showNumber(number);
   delay(150);
 }
 

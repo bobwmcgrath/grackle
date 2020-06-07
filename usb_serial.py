@@ -77,4 +77,7 @@ class UsbSerial:
     def close(self):
         self.ser.close()
 
-
+#ser_conf = {"port": "/dev/ttyACM0", "baud": 115200}
+#NUMATO=UsbSerial(ser_conf)
+#NUMATO.reset()
+#NUMATO.test()

@@ -2,6 +2,8 @@
 #by Shawn and Bob for Bridgewater Studios
 #this files calls game.py for most of the game mechanics
 #the pi communicates with 3 arduinos over MQTT to run 2 digit 7 segment displays
+
+#this program runs at boot with a cron job
 import time
 import paho.mqtt.publish as publish
 from usb_serial import UsbSerial
@@ -18,9 +20,9 @@ class Grackle:
 
         run_time = 30
         max_pin = 51
-        ada_pins = 25
-        start = 21
-        ada_start = 20
+        ada_pins = 22
+        start = 20
+        ada_start = 21
         ser_conf = {"port": "/dev/ttyACM0", "baud": 115200}
         NUMATO=UsbSerial(ser_conf)
         gameDict = {'serial': ser_conf, 'game_time': run_time}
@@ -38,6 +40,7 @@ class Grackle:
                         Game.start(gameDict)
                         NUMATO.clear(4)
                         NUMATO.clear(5) 
+                time.sleep(.1)
 
                 if NUMATO.readGPIO(ada_start)=="1":
                         NUMATO.set(4)
@@ -48,4 +51,6 @@ class Grackle:
                         Game.start(gameDict)
                         NUMATO.clear(4)
                         NUMATO.clear(5) 
+                time.sleep(.1)
+
 Grackle.run()
